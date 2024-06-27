@@ -81,6 +81,8 @@ input[type="text"], input[type="password"], input[type="email"], textarea{
   border-radius: 2px;
   cursor: pointer;
   transition: 0.3s;
+  font-size: 18px;
+  font-weight:bold;
 }
 
 .btn--lg{
@@ -93,7 +95,7 @@ input[type="text"], input[type="password"], input[type="email"], textarea{
 }
 
 .btn--secondary{
-  background-color: #8db3dd;
+  background-color: #71e30d;
 }
 
 .btn:hover{

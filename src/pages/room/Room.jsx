@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import client, {
-  databases,
+  database,
   databaseId,
   collectionId,
 } from "../../appwrite/appwriteConfig";
@@ -15,16 +15,16 @@ const Room = () => {
     getMessages();
 
     client.subscribe(
-      `databases.${databaseId}.collections.${collectionId}.decuments`,
+      `database.${databaseId}.collections.${collectionId}.decuments`,
       (response) => {
         if (
-          response.events.include("databases.*.collections.*.document.*.create")
+          response.events.include("database.*.collections.*.document.*.create")
         ) {
           console.log("A message was created");
           // setMessages((prevState) => [response.payload, ...messages]);
         }
         if (
-          response.events.include("databases.*.collections.*.document.*.delete")
+          response.events.include("database.*.collections.*.document.*.delete")
         ) {
           console.log("A message was delete!!");
           // setMessages((prevState) =>
@@ -42,7 +42,7 @@ const Room = () => {
       body: messageBody,
     };
 
-    let response = await databases.createDocument(
+    let response = await database.createDocument(
       databaseId,
       collectionId,
       ID.unique(),
@@ -54,7 +54,7 @@ const Room = () => {
   };
 
   const getMessages = async () => {
-    const response = await databases.listDocuments(databaseId, collectionId, [
+    const response = await database.listDocuments(databaseId, collectionId, [
       Query.orderDesc("$createdAt"),
       Query.limit(6),
     ]);
@@ -63,7 +63,7 @@ const Room = () => {
   };
 
   const deleteMessage = async (messages_id) => {
-    databases.deleteDocument(databaseId, collectionId, messages_id);
+    database.deleteDocument(databaseId, collectionId, messages_id);
     setMessages((prevState) =>
       messages.filter((messages) => messages.$id !== messages_id)
     );
@@ -85,7 +85,9 @@ const Room = () => {
             ></textarea>
           </div>
           <div className="send-btn--wrapper">
-            <input className="btn btn--secondary" type="submit" value="send" />
+            <button className="btn btn--secondary" type="submit">
+                Send
+            </button>
           </div>
         </form>
 
